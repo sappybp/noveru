@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881194766376",
+    "project_id": "noveru-19e3b",
+    "storage_bucket": ""
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881194766376:android:b3dcdf1faf4180b8ae251d",
+        "android_client_info": {
+          "package_name": "com.noveru.appname"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLYm28RmZMPS5SzOzfggFuUvWf92viM4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
