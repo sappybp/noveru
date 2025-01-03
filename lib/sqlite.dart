@@ -52,6 +52,7 @@ class DatabaseHelper {
         title TEXT,
         author TEXT,
         synopsis TEXT,
+        genre INTEGER,
         createdAt TEXT
       );
     ''');
@@ -97,6 +98,7 @@ class DatabaseHelper {
         'title': row[0],
         'author': row[1],
         'synopsis': row[2],
+        'genre' : row[3],
         'createdAt':dateNow
       });
     }
@@ -117,14 +119,14 @@ class DatabaseHelper {
       final db = await database;
       // 10件のbooksデータを取得
       final List<Map<String, dynamic>> books =
-      // await db.rawQuery(' Select * from $_databaseTableNameBooks order by random() limit 10');
       // print('selectBook10: $books');
       await db.rawQuery('''
         Select
         $_databaseTableNameBooks.id,
         $_databaseTableNameBooks.title,
         $_databaseTableNameBooks.author,
-        $_databaseTableNameBooks.synopsis
+        $_databaseTableNameBooks.synopsis,
+        $_databaseTableNameBooks.genre
         from $_databaseTableNameBooks
         left outer join $_databaseTableNameBooksRating on
         $_databaseTableNameBooks.id = $_databaseTableNameBooksRating.book_id
@@ -176,6 +178,7 @@ class DatabaseHelper {
         $_databaseTableNameBooks.title,
         $_databaseTableNameBooks.author,
         $_databaseTableNameBooks.synopsis,
+        $_databaseTableNameBooks.genre,
         $_databaseTableNameBooksRating.rating
         from $_databaseTableNameBooks
         inner join $_databaseTableNameBooksRating on

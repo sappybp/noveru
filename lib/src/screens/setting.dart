@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noveru/themeModeNotifier.dart';
+import 'package:noveru/colorAssistNotifier.dart';
 
 import 'package:noveru/sqlite.dart';
 
@@ -11,6 +12,7 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final switchThemeMode = ref.read(themeModeProvider.notifier).switchThemeMode;
+    final switchColorAssist = ref.read(colorAssistProvider.notifier).switchColorAssist;
     return Scaffold(
       appBar: AppBar(
         title: const Text("設定"),
@@ -35,6 +37,39 @@ class SettingScreen extends ConsumerWidget {
                 switchThemeMode(ThemeMode.dark);
               }
             },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Divider(
+            indent: 10,
+            endIndent: 10,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SwitchListTile(
+            title: const Text('色彩アシスト',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            value: ref.watch(colorAssistProvider),
+            onChanged: (bool value) {
+              if (value == false) {
+                switchColorAssist(false);
+              } else {
+                switchColorAssist(true);
+              }
+            },
+          ),
+          const Text('※オンにすると、あらすじ表示にジャンル別カラーを表示できます。',
+            style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
           ),
           const SizedBox(
             height: 10,

@@ -11,27 +11,6 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
     state = _loadThemeMode() ?? ThemeMode.dark;
   }
 
-  Future<void> toggle() async {
-    ThemeMode themeMode;
-    switch (state) {
-      case ThemeMode.light:
-        themeMode = ThemeMode.dark;
-        break;
-      case ThemeMode.dark:
-        themeMode = ThemeMode.light;
-        break;
-      case ThemeMode.system:
-        themeMode = ThemeMode.light;
-        break;
-    }
-
-    await _saveThemeMode(themeMode).then((value) {
-      if (value == true) {
-        state = themeMode;
-      }
-    });
-  }
-
   Future<void> switchThemeMode(themeMode) async {
     await _saveThemeMode(themeMode).then((value) {
       if (value == true) {
@@ -41,18 +20,15 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
     });
   }
 
-
   ThemeMode? _loadThemeMode() {
     // print('_loadThemeMode');
     final loaded = valToMode(_prefs.getInt(keyThemeMode) ?? 0);
     return loaded;
   }
 
-  // Future<bool> _saveThemeMode(ThemeMode themeMode) => _prefs.setInt(keyThemeMode, themeMode.name);
-
   Future<bool> _saveThemeMode(ThemeMode mode) async {
     // print('_saveThemeMode');
-    _prefs.setInt('theme_mode', modeToVal(mode));
+    _prefs.setInt(keyThemeMode, modeToVal(mode));
     return true;
   }
 

@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:noveru/sqlite.dart';
 import 'package:noveru/classBook.dart';
 import 'package:noveru/src/tategaki/tategaki.dart';
+import 'package:noveru/sharedPreferencesInstance.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -49,7 +50,7 @@ class _BookScreenState extends State<BookScreen>{
     await _fetchData();
 
     //ローディング画面が見たい時用
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     if(mounted) {
       setState(() {
@@ -75,12 +76,79 @@ class _BookScreenState extends State<BookScreen>{
     List<Map<String, dynamic>> records = await DatabaseHelper.instance.selectBook10();
     for (var record in records) {
       setState(() {
+        var genre = Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white;
+        if (getColorAssist() == true) {
+          if (Theme.of(context).brightness != Brightness.dark) {
+            switch (record['genre']) {
+              case 0: // ヒューマン・ドラマ
+                genre = const Color.fromARGB(255, 205, 205, 255);
+              case 1: // SF・ファンタジー
+                genre = const Color.fromARGB(255, 255, 255, 205);
+              case 2: // ミステリー・サスペンス
+                genre = const Color.fromARGB(255, 255, 205, 205);
+              case 3: // 恋愛
+                genre = const Color.fromARGB(255, 255, 205, 230);
+              case 4: // 青春
+                genre = const Color.fromARGB(255, 205, 255, 255);
+              case 5: // ホラー
+                genre = const Color.fromARGB(255, 235, 235, 235);
+              case 6: // 短編集
+                genre = const Color.fromARGB(255, 205, 205, 255);
+              case 7: // 文学、名作文学、海外文学
+                genre = const Color.fromARGB(255, 255, 230, 205);
+              case 8: // 経済・社会
+                genre = const Color.fromARGB(255, 230, 255, 205);
+              case 9: // 歴史・時代
+                genre = const Color.fromARGB(255, 205, 255, 205);
+              default: // その他
+                genre = const Color.fromARGB(255, 220, 205, 255);
+            }
+          } else {
+            switch (record['genre']) {
+              case 0: // ヒューマン・ドラマ
+                genre = const Color.fromARGB(255, 0, 0, 50);
+              case 1: // SF・ファンタジー
+                genre = const Color.fromARGB(255, 50, 50, 0);
+              case 2: // ミステリー・サスペンス
+                genre = const Color.fromARGB(255, 50, 0, 0);
+              case 3: // 恋愛
+                genre = const Color.fromARGB(255, 50, 0, 25);
+              case 4: // 青春
+                genre = const Color.fromARGB(255, 0, 50, 50);
+              case 5: // ホラー
+                genre = const Color.fromARGB(255, 20, 20, 20);
+              case 6: // 短編集
+                genre = const Color.fromARGB(255, 0, 0, 50);
+              case 7: // 文学、名作文学、海外文学
+                genre = const Color.fromARGB(255, 50, 25, 0);
+              case 8: // 経済・社会
+                genre = const Color.fromARGB(255, 25, 50, 0);
+              case 9: // 歴史・時代
+                genre = const Color.fromARGB(255, 0, 50, 0);
+              default: // その他
+                genre = const Color.fromARGB(255, 30, 0, 50);
+            }
+          }
+        }
         books.add(
           Book(record['id'], record['title'], record['author'],
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topRight,
+                  end: FractionalOffset.bottomLeft,
+                  colors: [
+                    Theme.of(context).brightness == Brightness.dark ? genre : genre,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+                    Theme.of(context).brightness == Brightness.dark ? genre : genre,
+                  ],
+                ),
               ),
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.fromLTRB(0, 10, 20, 15),
@@ -103,6 +171,13 @@ class _BookScreenState extends State<BookScreen>{
         );
       });
     }
+  }
+
+  bool getColorAssist() {
+    final prefs = SharedPreferencesInstance().prefs;
+    // print('_loadColorAssist');
+    final loaded = prefs.getBool('color_assist') ?? true;
+    return loaded;
   }
 
   @override

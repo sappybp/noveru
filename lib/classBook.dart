@@ -11,7 +11,7 @@ class Book{
     this.id,
     this.title,
     this.author,
-    this.synopsis
+    this.synopsis,
   );
 
 }
