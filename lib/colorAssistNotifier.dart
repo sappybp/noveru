@@ -6,8 +6,8 @@ class ColorAssistNotifier extends StateNotifier<bool> {
 
   final _prefs = SharedPreferencesInstance().prefs;
 
-  ColorAssistNotifier() : super(true) {
-    state = _loadColorAssist() ?? true;
+  ColorAssistNotifier() : super(false) {
+    state = _loadColorAssist() ?? false;
   }
 
   Future<void> switchColorAssist(colorAssist) async {
@@ -21,7 +21,7 @@ class ColorAssistNotifier extends StateNotifier<bool> {
 
   bool? _loadColorAssist() {
     // print('_loadColorAssist');
-    final loaded = _prefs.getBool(keyColorAssist) ?? true;
+    final loaded = _prefs.getBool(keyColorAssist) ?? false;
     return loaded;
   }
 

@@ -176,7 +176,7 @@ class _BookScreenState extends State<BookScreen>{
   bool getColorAssist() {
     final prefs = SharedPreferencesInstance().prefs;
     // print('_loadColorAssist');
-    final loaded = prefs.getBool('color_assist') ?? true;
+    final loaded = prefs.getBool('color_assist') ?? false;
     return loaded;
   }
 
