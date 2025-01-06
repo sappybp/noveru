@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noveru/sqlite.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
+// import 'package:external_app_launcher/external_app_launcher.dart';
 
 import 'package:noveru/classBook.dart';
 
@@ -30,12 +30,12 @@ class _BookMarkDetailState extends State<BookMarkDetail> {
       );
     } else {
       print('cant open url');
-      var openAppResult = await LaunchApp.openApp(
-        androidPackageName: 'com.amazon.mShop.android.shopping',
-        iosUrlScheme: 'amzn://',
-      );
-      print(
-          'openAppResult => $openAppResult ${openAppResult.runtimeType}');
+      // var openAppResult = await LaunchApp.openApp(
+      //   androidPackageName: 'com.amazon.mShop.android.shopping',
+      //   iosUrlScheme: 'amzn://',
+      // );
+      // print(
+      //     'openAppResult => $openAppResult ${openAppResult.runtimeType}');
     }
   }
 
